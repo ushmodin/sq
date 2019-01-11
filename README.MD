@@ -7,7 +7,7 @@
 
 Запись методом PUT
 
-``
+```
 ➜  ~ curl -v -X PUT http://localhost:8080 -d 'Hello' -H "Content-type: application/text" -H "AAA: 1"
 * Rebuilt URL to: http://localhost:8080/
 *   Trying localhost...
@@ -28,11 +28,11 @@
 < 
 * Connection #0 to host localhost left intact
 ➜  ~ 
-``
+```
 
 Чтение методом GET
 
-``
+```
 curl -v -X GET http://localhost:8080
 Note: Unnecessary use of -X or --request, GET is already inferred.
 * Rebuilt URL to: http://localhost:8080/
@@ -54,4 +54,4 @@ Note: Unnecessary use of -X or --request, GET is already inferred.
 < 
 * Connection #0 to host localhost left intact
 Hello%    
-``
+```
