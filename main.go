@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"net"
 	"net/http"
+	"net/http/fcgi"
 	"os"
 )
 
@@ -15,7 +17,7 @@ type rq struct {
 
 func main() {
 	if len(os.Args) < 2 {
-		fmt.Println("Use: " + os.Args[0] + " [port]")
+		fmt.Println("FCGI-Server. Implement blocking producer-consumer pattern.\nUse: " + os.Args[0] + " [port]")
 		os.Exit(1)
 	}
 
@@ -46,10 +48,17 @@ func main() {
 				return
 			}
 		} else {
+			ioutil.ReadAll(r.Body)
 			http.Error(w, "Method not implemented", 500)
 		}
 	}
 
-	http.HandleFunc("/", handler)
-	log.Fatal(http.ListenAndServe(":"+os.Args[1], nil))
+	l, err := net.Listen("tcp", ":"+os.Args[1])
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	if err := fcgi.Serve(l, http.HandlerFunc(handler)); err != nil {
+		log.Fatal(err)
+	}
 }
